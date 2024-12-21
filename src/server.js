@@ -20,9 +20,15 @@
 
 const express = require('express') //import module vào dự án
 const path = require('path') 
+require('dotenv').config();
 
+console.log(">>> check env:", process.env);
+console.log(process.env.PORT);
+console.log(process.env.HOST_NAME);
 const app = express() //khởi tạo một ứng dụng express
-const port = 8081
+const port = process.env.PORT || 8888;
+const hostname = process.env.HOST_NAME;
+
 
 // config template engine - khai báo trước khi khai báo route
 // path.join để tạo ra một đường dẫn chính xác tới thư mục views (tham số views thứ 2) - nó là tên thư mục - còn views (1) là chỉ để báo cho express biết là sẽ làm việc với template view thôi
@@ -47,6 +53,6 @@ app.get('/iFanIT', (req, res) => {
   res.render('sample.ejs') // render là để tạo ra view ĐỘNG
 })
 
-app.listen(port, () => {
+app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`)
 })
