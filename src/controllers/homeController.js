@@ -1,6 +1,17 @@
+const connection = require('../config/database');
 
 const getHomepage = (req, res) => {
-    res.send('Hello World! nè doraemon nè') //response cho trình duyệt
+    let users = [];
+    // simple query
+    connection.query(
+    'SELECT * FROM Users',
+    function (err, results, fields) {
+        users = results;
+        console.log(">>> results= ", results); // results contains rows returned by server
+
+        console.log('>>> check users:', users);
+        res.send(JSON.stringify(users)); //response cho trình duyệt - stringify chuyển từ JavaScript sang JSON (parse ngược lại - chuyển từ JSON sang JavaScript)
+    });
 }
 
 const getABC = (req, res) => {
