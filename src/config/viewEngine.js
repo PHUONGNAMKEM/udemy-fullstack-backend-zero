@@ -17,6 +17,7 @@ const configViewEngine = (app) => {
     app.set('view engine', 'ejs');
 
     // config static files
+    // app.use(express.static(path.join("./src", '../public'))); // cách 2
     app.use(express.static(path.join(__dirname, '../public')));
 };
 
