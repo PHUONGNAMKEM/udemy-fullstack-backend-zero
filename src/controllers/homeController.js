@@ -48,7 +48,12 @@ const getiFanIT = (req, res) => {
     res.render('sample.ejs') // render là để tạo ra view ĐỘNG
 }
 
+const postCreateUser = (req, res) => {
+    console.log(">>> check req.body", req.body);
+    res.send('Create a new user');
+}
+
 // export ra nhiều biến thì dùng object
 module.exports = {
-    getHomepage, getABC, getiFanIT
+    getHomepage, getABC, getiFanIT, postCreateUser
 }
