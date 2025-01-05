@@ -20,7 +20,7 @@ const getHomepage = (req, res) => {
 const getABC = (req, res) => {
     let persons = [];
     connection.query(
-        'SELECT * FROM Persons',
+        'SELECT * FROM Users',
         function(err, results, fields) {
             persons = results;
             res.send(JSON.stringify(persons)); 
@@ -48,12 +48,48 @@ const getiFanIT = (req, res) => {
     res.render('sample.ejs') // render là để tạo ra view ĐỘNG
 }
 
-const postCreateUser = (req, res) => {
-    console.log(">>> check req.body", req.body);
-    res.send('Create a new user');
+const postCreateUser = async (req, res) => {
+    let email = req.body.email;
+    let name = req.body.myname;
+    let city = req.body.city;
+    
+    // let {email, name, city} = req.body; cách 2
+    console.log(">>> check email = ", email, ' name =', name, ' city =', city);
+
+    // connection.query(
+    //     `INSERT INTO Users (email, name, city) 
+    //     VALUES (?, ?, ?);`, [email, name, city],
+    //     function(err, results) {
+    //         res.send('Create user succeed');
+    //     }
+    //   );
+
+    let [results, fields] = await connection.query(
+        `INSERT INTO Users (email, name, city) VALUES (?, ?, ?);`, [email, name, city]
+    );
+
+    console.log(">>> check results= ", results);
+    res.send('Create user succeed');
+
+    
+
+    // connection.query(
+    //     'SELECT * FROM Persons',
+    //     function (err, results, fields) {
+    //         users = results;
+    //         console.log(">>> results= ", results); 
+    //     }
+    // );
+
+    // const [results, fields] = await connection.query('SELECT * FROM Users');
+    // console.log(">>> check results= ", results);
+}
+
+const getCreatePage = (req, res) => {
+    res.render('create.ejs');
 }
 
 // export ra nhiều biến thì dùng object
 module.exports = {
-    getHomepage, getABC, getiFanIT, postCreateUser
+    getHomepage, getABC, getiFanIT, postCreateUser, getCreatePage
 }
