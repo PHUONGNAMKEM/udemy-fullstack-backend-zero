@@ -1,4 +1,5 @@
 const connection = require('../config/database');
+const {getAllUsers} = require('../services/CRUDService'); 
 
 // const getHomepage = (req, res) => {
 //     let users = [];
@@ -13,8 +14,11 @@ const connection = require('../config/database');
 //         res.send(JSON.stringify(users)); //response cho trình duyệt - stringify chuyển từ JavaScript thành JSON (parse ngược lại - chuyển từ JSON thành JavaScript)
 //     });
 // }
-const getHomepage = (req, res) => {
-    return res.render('home.ejs');
+
+const getHomepage = async (req, res) => {
+    console.log('check rows: ', results);
+    let results = getAllUsers(); 
+    return res.render('home.ejs', { listUsers: results });
 }
 
 const getABC = (req, res) => {
@@ -70,19 +74,6 @@ const postCreateUser = async (req, res) => {
 
     console.log(">>> check results= ", results);
     res.send('Create user succeed');
-
-    
-
-    // connection.query(
-    //     'SELECT * FROM Persons',
-    //     function (err, results, fields) {
-    //         users = results;
-    //         console.log(">>> results= ", results); 
-    //     }
-    // );
-
-    // const [results, fields] = await connection.query('SELECT * FROM Users');
-    // console.log(">>> check results= ", results);
 }
 
 const getCreatePage = (req, res) => {
