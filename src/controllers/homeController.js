@@ -16,8 +16,7 @@ const {getAllUsers} = require('../services/CRUDService');
 // }
 
 const getHomepage = async (req, res) => {
-    console.log('check rows: ', results);
-    let results = getAllUsers(); 
+    let results = await getAllUsers(); // hàm getAllUsers là await nên qua đây mình sử dụng lại thì cũng phải có await 
     return res.render('home.ejs', { listUsers: results });
 }
 
