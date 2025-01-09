@@ -1,5 +1,5 @@
 const connection = require('../config/database');
-const {getAllUsers} = require('../services/CRUDService'); 
+const {getAllUsers, getUserById, updateUserById} = require('../services/CRUDService'); 
 
 // const getHomepage = (req, res) => {
 //     let users = [];
@@ -79,7 +79,28 @@ const getCreatePage = (req, res) => {
     res.render('create.ejs');
 }
 
+const getUpdatePage = async (req, res) => {
+    const userId = req.params.id;   
+    // console.log(">>> check req.params: ", req.params, userId); //>>> check req.params:  { id: '1' } - string nha
+
+    let user = await getUserById(userId);
+    res.render('edit.ejs', { userEdit: user }); // userEdit là user truyền qua view, còn user là biến user ở trên
+}
+
+const postUpdateUser = async (req, res) => {
+
+    let email = req.body.email;
+    let name = req.body.myname;
+    let city = req.body.city;
+    let userId = req.body.userId;
+
+    await updateUserById(email, name, city, userId);
+
+    // res.send('Update user succeed');
+    res.redirect('/');
+}
+
 // export ra nhiều biến thì dùng object
 module.exports = {
-    getHomepage, getABC, getiFanIT, postCreateUser, getCreatePage
+    getHomepage, getABC, getiFanIT, postCreateUser, getCreatePage, getUpdatePage, postUpdateUser
 }
