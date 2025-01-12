@@ -1,5 +1,5 @@
 const connection = require('../config/database');
-const {getAllUsers, getUserById, updateUserById} = require('../services/CRUDService'); 
+const {getAllUsers, getUserById, updateUserById, deleteUserById} = require('../services/CRUDService'); 
 
 // const getHomepage = (req, res) => {
 //     let users = [];
@@ -107,8 +107,13 @@ const postDeleteUser = async (req, res) => {
     res.render('delete.ejs', { userDelete: user });
 }
 
-const postHandleRemoveUser = (req, res) => {
-    res.send('ok Deleted');
+const postHandleRemoveUser = async (req, res) => {
+    const id = req.body.userId; // lấy theo thuộc tính name
+   
+    let [results, fields] = await connection.query(
+        'DELETE FROM Users WHERE id = ?', [id]
+    );
+    res.redirect('/');
 }
 // export ra nhiều biến thì dùng object
 module.exports = {
